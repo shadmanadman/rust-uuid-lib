@@ -89,6 +89,7 @@ name = "rust_uuid_lib"
 version = "0.1.0"
 dependencies = [
  "uuid",
+ "wasm-bindgen",
 ]
 
 [[package]]

@@ -2,6 +2,7 @@ use uuid::Uuid;
 use std::ffi::CString;
 use std::os::raw::c_char;
 
+
 #[unsafe(no_mangle)]
 pub extern "C" fn generate_uuid_v4() -> *mut c_char {
     let uuid = Uuid::new_v4().to_string();
@@ -13,4 +14,14 @@ pub extern "C" fn generate_uuid_v4() -> *mut c_char {
 pub extern "C" fn free_uuid(ptr: *mut c_char) {
     if ptr.is_null() { return; }
     unsafe { CString::from_raw(ptr); } // drops and frees
+}
+
+
+#[cfg(target_arch = "wasm32")]
+use wasm_bindgen::prelude::*;
+
+#[cfg(target_arch = "wasm32")]
+#[wasm_bindgen]
+pub fn generate_uuid_v4_js() -> String {
+    Uuid::new_v4().to_string()
 }
